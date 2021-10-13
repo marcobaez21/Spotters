@@ -81,11 +81,13 @@ export default class Explore extends Component {
                     <table style={{ marginLeft: 20 }}>
                         <thead>
                             <tr>
-                                <td style={{ padding: 10, width: 90 }}>
+                                <td style={{ padding: 10, width: 100 }}>
                                     <input
-                                        type="text"
+                                        type="number"
                                         placeholder="Rank"
                                         className="form-control"
+                                        min="1"
+                                        max="200"
                                         value={this.state.rank}
                                         onChange={this.onChangeRank}
                                     />
