@@ -15,7 +15,7 @@ export default class Explore extends Component {
         this.state = {
             rank: "",
             country: "Global",
-            date: "",
+            date: "2019-01-01",
             song_artist: "",
             song_title: "",
         };
@@ -68,7 +68,7 @@ export default class Explore extends Component {
         this.setState({
             rank: "",
             country: "Global",
-            date: "",
+            date: "2019-01-01",
             song_artist: "",
             song_title: "",
         });
