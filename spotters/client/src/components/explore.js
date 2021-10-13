@@ -15,7 +15,7 @@ export default class Explore extends Component {
         this.state = {
             rank: "",
             country: "Global",
-            date: "2019-01-01",
+            date: "",
             song_artist: "",
             song_title: "",
         };
@@ -68,7 +68,7 @@ export default class Explore extends Component {
         this.setState({
             rank: "",
             country: "Global",
-            date: "2019-01-01",
+            date: "",
             song_artist: "",
             song_title: "",
         });
@@ -78,7 +78,7 @@ export default class Explore extends Component {
         return (
             <div>
                 <form onSubmit={this.onSearch}>
-                    <table style={{ marginLeft: 20 }}>
+                    <table style={{ marginLeft: 20, marginTop: 20 }}>
                         <thead>
                             <tr>
                                 <td style={{ padding: 10, width: 100 }}>
@@ -96,8 +96,9 @@ export default class Explore extends Component {
                                     <select
                                         value={this.state.country}
                                         onChange={this.onChangeCountry}
+                                        defaultValue="Global"
                                         style={{ width: 190 }}>
-                                        <option value="Global" selected>Global</option>
+                                        <option value="Global">Global</option>
                                         <option value="Australia">Australia</option>
                                         <option value="Canada">Canada</option>
                                         <option value="France">France</option>
