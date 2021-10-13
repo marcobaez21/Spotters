@@ -6,7 +6,7 @@ const Navbar = () => {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <NavLink className="navbar-brand" to="/" style={{ marginLeft: 10 }}>
+                <NavLink className="navbar-brand" to="/" style={{ marginLeft: 10, color: "#1DB954" }}>
                     Spotters
                 </NavLink>
                 <button

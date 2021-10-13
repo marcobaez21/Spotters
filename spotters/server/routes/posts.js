@@ -17,12 +17,21 @@ let songs = [
         song_title: "what"
     }];
 
+//Responds to a get request from the front-end coming from /explore
 router.route("/explore").get(function (req, res) {
     res.json(songs);
 });
 
+//Responds to a post request from the front-end coming from /explore
 router.route("/explore").post(function (req, res) {
-    songs.push({ message: req.body.message });
+    const newSearch = {
+        rank: req.body.rank,
+        country: req.body.country,
+        date: req.body.date,
+        song_artist: req.body.song_artist,
+        song_title: req.body.song_title,
+    };
+    songs.push(newSearch);
 });
 
 export default router;

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 const Song = (props) => (
     <tr>
-        <td>{props.song.rank}</td>
-        <td>{props.song.country}</td>
-        <td>{props.song.date}</td>
-        <td>{props.song.song_artist}</td>
-        <td>{props.song.song_title}</td>
+        <td style={{ padding: 10, width: 100 }}>{props.song.rank}</td>
+        <td style={{ padding: 10, width: 200 }}>{props.song.country}</td>
+        <td style={{ padding: 10, width: 200 }}>{props.song.date}</td>
+        <td style={{ padding: 10, width: 400 }}>{props.song.song_artist}</td>
+        <td style={{ padding: 10, width: 400 }}>{props.song.song_title}</td>
     </tr>
 );
 
@@ -38,7 +38,7 @@ export default class List extends Component {
     render() {
         return (
             <div>
-                <table className="table table-striped" style={{ marginTop: 20 }}>
+                <table className="table table-striped" style={{ marginTop: 20, marginLeft: 20, width: 1300 }}>
                     <tbody>{this.songList()}</tbody>
                 </table>
             </div>
