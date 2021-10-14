@@ -1,14 +1,8 @@
 import express from "express";
 const router = express.Router();
+import { search } from "../database.js";
 
-let songs = [
-    {
-        rank: 1,
-        country: "where",
-        date: "when",
-        song_artist: "who",
-        song_title: "what"
-    }];
+let songs = [];
 
 //Responds to a get request from the front-end coming from /explore
 router.route("/explore").get(function (req, res) {
@@ -17,14 +11,20 @@ router.route("/explore").get(function (req, res) {
 
 //Responds to a post request from the front-end coming from /explore
 router.route("/explore").post(function (req, res) {
-    const newSearch = {
-        rank: (req.body.rank == "") ? 0 : req.body.rank,
-        country: req.body.country,
-        date: (req.body.date == "") ? "2019-01-01" : req.body.date,
-        song_artist: req.body.song_artist,
-        song_title: req.body.song_title,
-    };
-    songs.push(newSearch);
+    songs = search(req.body.rank,
+        req.body.country,
+        req.body.date,
+        req.body.song_artist,
+        req.body.song_title);
+
+    if (songs.length == 0) //No matches
+        songs.push({
+            rank: "",
+            country: "",
+            date: "",
+            song_artist: "no matches",
+            song_title: ""
+        });
 });
 
 export default router;
