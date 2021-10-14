@@ -1,12 +1,11 @@
 import express from "express";
-import { parseData } from "../logic.js";
 const router = express.Router();
 
-import {parseDict} from './logic.js';
-import {parseData} from './logic.js';
+import { parseDict } from "../logic";
+import { parseBigData} from "../logic";
 
-let dict = parseDict("insertfilename");
-let data = parseData("insertfilename");
+let dict = parseDict("dict_10countries_2019.csv");
+let data = parseBigData("data_10countries_2019.csv");
 
 let songs = [
     {

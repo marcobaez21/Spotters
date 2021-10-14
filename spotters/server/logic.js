@@ -1,11 +1,13 @@
-const fs = require('fs');
+//const fs = require('fs');
+//import {fs} from 'fs';
+import fs from "fs";
 
-export async function parseData(fileName){ //run this after parseDict()
+ export async function parseBigData(filename){ //run this after parseDict()
     if(!fileName)
         return Promise.reject("no file name");
 
     const fileContent = fs.readFileSync(fileName, "utf8");
-
+    //const fileContent = fs.readFileSync("spotters/server/routes/", "utf8");
     if(!fileContent)
         return Promise.reject("empty file");
 
@@ -63,6 +65,10 @@ export async function parseDict(fileName){ //run this before parseData()
     return Promise.resolve(out);
 }
 
+//module.exports = {
+  //  parseDict: parseDict,
+   // parseBigData: parseBigData
+//};
 
 async function verify(flag, songName, artistName, dict){ //returns true if input exists
     //flags:    
