@@ -2,7 +2,24 @@ import express from "express";
 const router = express.Router();
 import { search } from "../database.js";
 
+<<<<<<< HEAD
 let songs = [];
+=======
+import { parseDict } from "../logic";
+import { parseBigData} from "../logic";
+
+let dict = parseDict("dict_10countries_2019.csv");
+let data = parseBigData("data_10countries_2019.csv");
+
+let songs = [
+    {
+        rank: 1,
+        country: "where",
+        date: "when",
+        song_artist: "who",
+        song_title: "what"
+    }];
+>>>>>>> 727bc76723640bc659920f9be0e3e6544da643b1
 
 //Responds to a get request from the front-end coming from /explore
 router.route("/explore").get(function (req, res) {
