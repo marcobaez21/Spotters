@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-async function parseData(fileName){ //run this after parseDict()
+export async function parseData(fileName){ //run this after parseDict()
     if(!fileName)
         return Promise.reject("no file name");
 
@@ -43,7 +43,7 @@ async function parseData(fileName){ //run this after parseDict()
     return Promise.resolve(locations);
 }
 
-async function parseDict(fileName){ //run this before parseData()
+export async function parseDict(fileName){ //run this before parseData()
     if(!fileName)
         return Promise.reject("no file name");
 
@@ -92,6 +92,25 @@ async function verify(flag, songName, artistName, dict){ //returns true if input
     return false;
 }
 
+
+async function convertdate(date1){ //takes date which is a string written as 2000-01-01 and turns it into three ints (year, month, day) and then takes that and turns it into one final date int which is 1-365
+    var year = parseInt(date1.substring(0, 3));  //the substring of 0-3 is the 2001 in the date1 representing the year i take that substring and convert it into int using parseint
+    var month = parseInt(date1.substring(5, 6));  //the substring of 5-6 is the 01 in the date1 representing the month i take that substring and convert it into int using parseint
+    var day = parseInt(date1.substring(8, 9));  //the substring of 8-9 is the 2001 in the date1 representing the day i take that substring and convert it into int using parseint
+
+    if(month == 1){return day;} //if month is 1 aka january then the date number is simply the day
+    if(month == 2){return 31+day;}//if month is 2 aka february then the date number is all days in january (31) plus the current day
+    if(month == 3){return 31+28+day;}//etc
+    if(month == 4){return 31+28+31+day;}
+    if(month == 5){return 31+28+31+30+day;}
+    if(month == 6){return 31+28+31+30+31+day;}
+    if(month == 7){return 31+28+31+30+31+30+day;}
+    if(month == 8){return 31+28+31+30+31+30+31+day;}
+    if(month == 9){return 31+28+31+30+31+30+31+31+day;}
+    if(month == 10){return 31+28+31+30+31+30+31+31+30+day;}
+    if(month == 11){return 31+28+31+30+31+30+31+31+30+31+day;}
+    if(month == 12){return 31+28+31+30+31+30+31+31+30+31+30+day;}
+}
 
 //Preconditions: location = [0-9], date1 = [1-365]
 async function search(location, date1, position, artist, song, data, dict){

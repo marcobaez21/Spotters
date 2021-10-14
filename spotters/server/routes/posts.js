@@ -1,5 +1,12 @@
 import express from "express";
+import { parseData } from "../logic.js";
 const router = express.Router();
+
+import {parseDict} from './logic.js';
+import {parseData} from './logic.js';
+
+let dict = parseDict("insertfilename");
+let data = parseData("insertfilename");
 
 let songs = [
     {
