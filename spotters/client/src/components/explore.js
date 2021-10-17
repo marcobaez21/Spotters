@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+//This object turns a row of song into a html table row
+const Song = (props) => (
+    <tr>
+        <td style={{ padding: 10, width: 100 }}>{props.song.rank}</td>
+        <td style={{ padding: 10, width: 200 }}>{props.song.country}</td>
+        <td style={{ padding: 10, width: 200 }}>{props.song.date}</td>
+        <td style={{ padding: 10, width: 400 }}>{props.song.song_artist}</td>
+        <td style={{ padding: 10, width: 400 }}>{props.song.song_title}</td>
+    </tr>
+);
+
 export default class Explore extends Component {
     constructor(props) {
         super(props);
@@ -18,8 +29,27 @@ export default class Explore extends Component {
             date: "",
             song_artist: "",
             song_title: "",
+            songs: []
         };
     };
+
+    //Runs when component is first loaded which displays the table
+    componentDidMount() {
+        fetch('http://localhost:5000/posts/explore')
+            .then(res => res.json())
+            .then(songs => this.setState({ songs }));
+    };
+
+    //Used to turn the list of songs into a table
+    songList() {
+        return this.state.songs.map((currentSong) => {
+            return (
+                <Song
+                    song={currentSong}
+                />
+            );
+        });
+    }
 
     onChangeRank(e) {
         this.setState({
@@ -72,6 +102,9 @@ export default class Explore extends Component {
             song_artist: "",
             song_title: "",
         });
+
+        //Reload the component to show the table
+        this.componentDidMount();
     };
 
     render() {
@@ -149,6 +182,9 @@ export default class Explore extends Component {
                         </thead>
                     </table>
                 </form>
+                <table className="table table-striped" style={{ marginTop: 20, marginLeft: 20, width: 1300 }}>
+                    <tbody>{this.songList()}</tbody>
+                </table>
             </div>
         );
     };
