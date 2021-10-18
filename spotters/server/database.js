@@ -106,8 +106,8 @@ export function search(rank, country, date, artist, title) {
             rank: parseInt(runningList[i][2]),
             country: runningList[i][0],
             date: runningList[i][1],
-            song_artist: dict[runningList[i][3]][3],
-            song_title: dict[runningList[i][3]][2]
+            song_artist: dict[parseInt(runningList[i][3])][3],
+            song_title: dict[parseInt(runningList[i][3])][2]
         });
     }
 
