@@ -82,8 +82,6 @@ export default class Explore extends Component {
     };
 
     onSearch(e) {
-        e.preventDefault();
-
         const newSearch = {
             rank: this.state.rank,
             country: this.state.country,
@@ -100,7 +98,7 @@ export default class Explore extends Component {
             country: "Global",
             date: "",
             song_artist: "",
-            song_title: "",
+            song_title: ""
         });
 
         //Reload the component to show the table
