@@ -82,6 +82,7 @@ export function search(rank, country, date, artist, title) {
 
     if (date.length != 0) { //User specified the date
         //Convert date format to match database format
+        //replace these two lines with helper function works
         let [year, month, day] = date.split('-');
         date = month + "/" + day + "/" + year;
 
@@ -112,4 +113,36 @@ export function search(rank, country, date, artist, title) {
     }
 
     return finalList;
+}
+
+export function dateConvertToStore(date){
+    let [year, month, day] = date.split('-');
+    return month + "/" + day + "/" + year;
+}
+
+export function insertAndUpdate(rank, country, date, artist, song){
+    let id = songIDExist(song, artist);
+    let d = dateConvertToStore(date); // convert date format
+    for(let i = 0; i < database.length; ++i){
+        if(database[i][0] == country && database[i][1] == d && database[i][2] == rank){
+            database[i][3] = id; //update
+            return;
+        }
+    }
+    database.push([country, d, rank, id]); //insert
+}
+
+export function songIDExist(title, artist){ //creates dict entry if does not exist
+    for(let i = 0; i < dict.length; ++i){
+        if(dict[i][2] == title && dict[i][3] == artist)
+            return i;
+    }
+    dict.push([dict.length, -1, title, artist, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]);
+    return dict.length - 1;
+}
+
+export function remove(rank, country, date, artist, song){
+    const index = database.indexOf([country, dateConvertToStore(date), rank, songIDExist(song, artist)]);
+    if (index > -1)
+        database.splice(index, 1);
 }
