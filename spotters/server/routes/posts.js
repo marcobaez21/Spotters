@@ -5,12 +5,12 @@ import { search } from "../database.js";
 let songs = [];
 
 //Responds to a get request from the front-end coming from /explore
-router.route("/explore").get(function (req, res) {
+router.get("/explore", function (req, res) {
     res.json(songs);
 });
 
 //Responds to a post request from the front-end coming from /explore
-router.route("/explore").post(function (req, res) {
+router.post("/explore", function (req, res) {
     songs = search(req.body.rank,
         req.body.country,
         req.body.date,
@@ -25,6 +25,18 @@ router.route("/explore").post(function (req, res) {
             song_artist: "no matches",
             song_title: ""
         });
+});
+
+router.post("/create", function (req, res) {
+
+});
+
+router.post("/edit", function (req, res) {
+
+});
+
+router.post("/delete", function (req, res) {
+
 });
 
 export default router;
