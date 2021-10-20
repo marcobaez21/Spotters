@@ -4,9 +4,9 @@ import axios from 'axios';
 //This object turns a row of song into a html table row
 const Song = (props) => (
     <tr>
-        <td style={{ padding: 10, width: 100 }}>{props.song.rank}</td>
-        <td style={{ padding: 10, width: 200 }}>{props.song.country}</td>
-        <td style={{ padding: 10, width: 200 }}>{props.song.date}</td>
+        <td style={{ padding: 10, width: 105 }}>{props.song.rank}</td>
+        <td style={{ padding: 10, width: 215 }}>{props.song.country}</td>
+        <td style={{ padding: 10, width: 220 }}>{props.song.date}</td>
         <td style={{ padding: 10, width: 400 }}>{props.song.song_artist}</td>
         <td style={{ padding: 10, width: 400 }}>{props.song.song_title}</td>
     </tr>
@@ -145,8 +145,6 @@ export default class Explore extends Component {
                                     <input
                                         type="date"
                                         className="form-control"
-                                        min="2019-01-01"
-                                        max="2019-12-31"
                                         value={this.state.date}
                                         onChange={this.onChangeDate}
                                     />
@@ -180,7 +178,7 @@ export default class Explore extends Component {
                         </thead>
                     </table>
                 </form>
-                <table className="table table-striped" style={{ marginTop: 20, marginLeft: 20, width: 1300 }}>
+                <table className="table table-striped" style={{ marginTop: 20, marginLeft: 20, width: 1325 }}>
                     <tbody>{this.songList()}</tbody>
                 </table>
             </div>
