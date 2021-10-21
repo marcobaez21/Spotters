@@ -1,6 +1,10 @@
 import express from "express";
 const router = express.Router();
 import { search } from "../database.js";
+import { insertAndUpdate} from "../database.js";
+import { remove } from "../database.js";
+import { ImportDB } from "../database.js";
+import { ExportDatabase } from "../database.js";
 
 let songs = [];
 
@@ -28,15 +32,37 @@ router.post("/explore", function (req, res) {
 });
 
 router.post("/create", function (req, res) {
-
+    insertAndUpdate(req.body.rank,
+    req.body.country, 
+    req.body.date,
+    req.body.song_artist,
+    req.body.song_title);
 });
 
 router.post("/edit", function (req, res) {
-
+    insertAndUpdate(req.body.rank,
+        req.body.country, 
+        req.body.date,
+        req.body.song_artist,
+        req.body.song_title);
 });
 
 router.post("/delete", function (req, res) {
+    remove(req.body.rank,
+        req.body.country, 
+        req.body.date,
+        req.body.song_artist,
+        req.body.song_title);
+});
 
+router.post("/import", function (req, res) {
+    console.log("Will begin importing!");
+    ImportDB();
+});
+
+router.post("/export", function(req, res) {
+    console.log("Will begin exporting!");
+    ExportDatabase();
 });
 
 export default router;
