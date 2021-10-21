@@ -60,7 +60,7 @@ router.post("/import", function (req, res) {
     ImportDB();
 });
 
-router.post("/export", function(req, res) {
+router.post("/backup", function(req, res) {
     console.log("Will begin exporting!");
     ExportDatabase();
 });
