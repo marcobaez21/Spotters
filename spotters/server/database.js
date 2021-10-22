@@ -3,10 +3,15 @@ import fs from "fs";
 let database = [];
 let dict = [];
 
+let unmodifiedDatabase = [];
+let tenArtistsMostTop10 = [];
+
 fs.readFile("data_10countries_2019.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
     database = rows.map(function (row) { return row.split(","); })
-    database.shift();
+    database.shift(); //we can shift rows instead of database and unmodifiedDatabase
+    unmodifiedDatabase = rows.map(function (row) { return row.split(","); })
+    unmodifiedDatabase.shift();
 });
 
 fs.readFile("dict_10countries_2019.csv", "utf8", function (err, data) {
@@ -209,4 +214,18 @@ export function ExportDatabase(){
         });
     });
     
+}
+
+export function tenArtistTopTen(){
+    let map = new Map();
+    for(let i = 0; i < unmodifiedDatabase.length; ++i){
+        const artists = dict[unmodifiedDatabase[i][3]][3].split(' - ');
+        for(let j = 0; j < artists.length; ++j)
+            map.set(artists[j], map.get(artists[j] + 1 || 1));
+        if(unmodifiedDatabase[i][2] == 10) //skips to the next top 10
+            i += 189; //possible bug here
+    }
+    let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //sort instead of using max heap
+    for(let i = 0; i < 10; ++i)
+        tenArtistsMostTop10.push([sorted[i][0], sorted[i][1]]);
 }
