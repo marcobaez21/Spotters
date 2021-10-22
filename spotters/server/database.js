@@ -222,8 +222,8 @@ export function tenArtistTopTen(){
         const artists = dict[unmodifiedDatabase[i][3]][3].split(' - ');
         for(let j = 0; j < artists.length; ++j)
             map.set(artists[j], map.get(artists[j] + 1 || 1));
-        if(unmodifiedDatabase[i][2] == 10) //skips to the next top 10
-            i += 189; //possible bug here
+        if(unmodifiedDatabase[i][2] == '10') //skips to the next top 10
+            i += 190; //possible bug here
     }
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //sort instead of using max heap
     for(let i = 0; i < 10; ++i)
