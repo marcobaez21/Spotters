@@ -4,12 +4,17 @@ let database = [];
 let dict = [];
 
 let unmodifiedDatabase = [];
+let averageCharacteristicsByLocation = [];
 let tenArtistsMostTop10 = [];
 
 fs.readFile("data_10countries_2019.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
     database = rows.map(function (row) { return row.split(","); })
-    database.shift(); //we can shift rows instead of database and unmodifiedDatabase
+    database.shift();
+});
+
+fs.readFile("data_10countries_2019_unmodified.csv", "utf8", function (err, data) {
+    let rows = data.split("\n");
     unmodifiedDatabase = rows.map(function (row) { return row.split(","); })
     unmodifiedDatabase.shift();
 });
@@ -214,6 +219,10 @@ export function ExportDatabase(){
         });
     });
     
+}
+
+export function averageCharacteristics(){
+
 }
 
 export function tenArtistTopTen(){
