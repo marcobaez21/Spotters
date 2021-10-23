@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import axios from 'axios';
 import { NavLink } from "react-router-dom";
+import "./styles.css";
 
 export default class Navbar extends Component {
     constructor(props) {
@@ -28,8 +29,8 @@ export default class Navbar extends Component {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <NavLink className="navbar-brand" to="/" style={{ marginLeft: 10, color: "#1DB954" }}>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+                    <NavLink id="navBrand" className="navbar-brand ms-3" to="/">
                         Spotters
                     </NavLink>
                     <button
@@ -44,35 +45,37 @@ export default class Navbar extends Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav">
-                            <li className="nav-item">
+                    <div className="collapse navbar-collapse d-inline-flex justify-content-between" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li className="nav-item p-1">
                                 <NavLink className="nav-link" to="/explore">
                                     Explore
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item p-1">
                                 <NavLink className="nav-link" to="/create">
                                     Create
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item p-1">
                                 <NavLink className="nav-link" to="/edit">
                                     Edit
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item p-1">
                                 <NavLink className="nav-link" to="/delete">
                                     Delete
                                 </NavLink>
                             </li>
                         </ul>
-                        <form class="form-inline" onSubmit={this.onImport}>
-                            <button class="btn btn-light" type="submit">Import</button>
-                        </form>
-                        <form class="form-inline" onSubmit={this.onBackup}>
-                            <button class="btn btn-light" type="submit">Backup</button>
-                        </form>
+                        <ul class="navbar-nav">
+                            <form class="form-inline p-1" onSubmit={this.onImport}>
+                                <button class="btn btn-dark btn-outline-light" type="submit">Import</button>
+                            </form>
+                            <form class="form-inline p-1" onSubmit={this.onBackup}>
+                                <button class="btn btn-dark btn-outline-light" type="submit">Backup</button>
+                            </form>
+                        </ul>
                     </div>
                 </nav>
             </div >
