@@ -222,7 +222,42 @@ export function ExportDatabase(){
 }
 
 export function averageCharacteristics(){
-
+    //================row================
+    // 0 - Global
+    // 1 - USA
+    // ...
+    // 9 - Australia
+    //================col================
+    // 0 - total number of songs
+    // 1 - average danceability
+    // 2 - average energy
+    // 3 - average speechiness
+    // 4 - average acoustics
+    // 5 - average liveliness
+    // 6 - average valence
+    let arr = new Array(10).fill(new Array(7).fill(0));
+    const map = new Map([["Global", 0], ["USA", 1], ["UK", 2], ["Canada", 3],["Sweden", 4], ["Mexico", 5],["France", 6], ["Malaysia", 7],["Netherlands", 8], ["Australia", 9]]);
+    for(let i = 0; i < unmodifiedDatabase.length; ++i){
+        const location = map.get(unmodifiedDatabase[i][0]);
+        const id = unmodifiedDatabase[i][3];
+        arr[location][0] += 1;
+        arr[location][1] += parseInt(dict[id][12]);
+        arr[location][2] += parseInt(dict[id][13]);
+        arr[location][3] += parseInt(dict[id][17]);
+        arr[location][4] += parseInt(dict[id][18]);
+        arr[location][5] += parseInt(dict[id][20]);
+        arr[location][6] += parseInt(dict[id][21]);
+    }
+    for(let i = 0; i < arr.length; ++i){
+        const total = arr[i][0];
+        arr[i][1] /= total;
+        arr[i][2] /= total;
+        arr[i][3] /= total;
+        arr[i][4] /= total;
+        arr[i][5] /= total;
+        arr[i][6] /= total;
+    }
+    averageCharacteristicsByLocation = arr;
 }
 
 export function tenArtistTopTen(){
