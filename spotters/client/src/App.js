@@ -6,11 +6,15 @@ import Navbar from "./components/navbar.js";
 import Create from "./components/create.js";
 import Edit from "./components/edit.js";
 import Delete from "./components/delete.js";
+import Analytics from "./components/analytics.js";
 
 const App = () => {
     return (
         <div>
             <Navbar />
+            <Route exact path="/">
+                <Analytics />
+            </Route>
             <Route path="/explore">
                 <Explore />
             </Route>
