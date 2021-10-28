@@ -4,6 +4,7 @@ let database = [];
 let dict = [];
 
 let unmodifiedDatabase = [];
+let unmodifiedDict = [];
 let averageCharacteristicsByLocation = [];
 let tenArtistsMostTop10 = [];
 
@@ -20,6 +21,12 @@ fs.readFile("data_10countries_2019_unmodified.csv", "utf8", function (err, data)
 });
 
 fs.readFile("dict_10countries_2019.csv", "utf8", function (err, data) {
+    let rows = data.split("\n");
+    unmodifiedDict = rows.map(function (row) { return row.split(","); })
+    unmodifiedDict.shift();
+});
+
+fs.readFile("dict_10countries_2019_unmodified.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
     dict = rows.map(function (row) { return row.split(","); })
     dict.shift();
@@ -258,6 +265,7 @@ export function averageCharacteristics(){
         arr[i][6] /= total;
     }
     averageCharacteristicsByLocation = arr;
+    return averageCharacteristicsByLocation;
 }
 
 export function tenArtistTopTen(){
@@ -272,4 +280,22 @@ export function tenArtistTopTen(){
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //sort instead of using max heap
     for(let i = 0; i < 10; ++i)
         tenArtistsMostTop10.push([sorted[i][0], sorted[i][1]]);
+}
+
+export function searchAndReturnCharacteristics(rank, country, date){
+    //let chararray = [];
+    let tempid = -1;
+    let [year, month, day] = date.split('-');
+        date = month + "/" + day + "/" + year;
+    for(let i=0;i<unmodifiedDatabase.length;i++){ //used to search database to find the id of the song we want characteristics from
+        if(unmodifiedDatabase[i][0]==country && unmodifiedDatabasep[i][1]==date && unmodifiedDatabase[i][2]==rank){tempid=unmodifiedDatabase[i][3];}
+    }
+    if(tempid==-1){return;}
+    for(let i=0;i<unmodifiedDict.length;i++){
+        if(unmodifiedDict[i][0]==tempid){
+            let chararray = [unmodifiedDict[i][12], unmodifiedDict[i][13], unmodifiedDict[i][17], unmodifiedDict[i][18], unmodifiedDict[i][20], unmodifiedDict[i][21] ];
+            console.log(chararray);
+            return chararray;
+        }
+    }
 }
