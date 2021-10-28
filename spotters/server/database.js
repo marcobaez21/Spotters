@@ -229,6 +229,7 @@ export function ExportDatabase(){
 }
 
 export function averageCharacteristics(){
+    console.log("beginning of avgchar");
     //================row================
     // 0 - Global
     // 1 - USA
@@ -242,18 +243,21 @@ export function averageCharacteristics(){
     // 4 - average acoustics
     // 5 - average liveliness
     // 6 - average valence
-    let arr = new Array(10).fill(new Array(7).fill(0));
+   // let arr = new Array(10).fill(new Array(7).fill(0));
+   let arr = [[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]];
     const map = new Map([["Global", 0], ["USA", 1], ["UK", 2], ["Canada", 3],["Sweden", 4], ["Mexico", 5],["France", 6], ["Malaysia", 7],["Netherlands", 8], ["Australia", 9]]);
     for(let i = 0; i < unmodifiedDatabase.length; ++i){
-        const location = map.get(unmodifiedDatabase[i][0]);
-        const id = unmodifiedDatabase[i][3];
-        arr[location][0] += 1;
-        arr[location][1] += parseInt(dict[id][12]);
-        arr[location][2] += parseInt(dict[id][13]);
-        arr[location][3] += parseInt(dict[id][17]);
-        arr[location][4] += parseInt(dict[id][18]);
-        arr[location][5] += parseInt(dict[id][20]);
-        arr[location][6] += parseInt(dict[id][21]);
+        const location = parseInt(map.get(unmodifiedDatabase[i][0]));
+       // console.log("loc"+location);
+        let id = parseInt(unmodifiedDatabase[i][3]);
+       // console.log("id"+id)
+        arr[0][0] += 1;
+        arr[0][1] += parseInt(unmodifiedDict[id][12]);
+        arr[location][2] += parseInt(unmodifiedDict[id][13]);
+        arr[location][3] += parseInt(unmodifiedDict[id][17]);
+        arr[location][4] += parseInt(unmodifiedDict[id][18]);
+        arr[location][5] += parseInt(unmodifiedDict[id][20]);
+        arr[location][6] += parseInt(unmodifiedDict[id][21]);
     }
     for(let i = 0; i < arr.length; ++i){
         const total = arr[i][0];
@@ -265,6 +269,7 @@ export function averageCharacteristics(){
         arr[i][6] /= total;
     }
     averageCharacteristicsByLocation = arr;
+    console.log("here in averagecharacteristics");
     return averageCharacteristicsByLocation;
 }
 
@@ -288,13 +293,14 @@ export function searchAndReturnCharacteristics(rank, country, date){
     let [year, month, day] = date.split('-');
         date = month + "/" + day + "/" + year;
     for(let i=0;i<unmodifiedDatabase.length;i++){ //used to search database to find the id of the song we want characteristics from
-        if(unmodifiedDatabase[i][0]==country && unmodifiedDatabasep[i][1]==date && unmodifiedDatabase[i][2]==rank){tempid=unmodifiedDatabase[i][3];}
+        if(unmodifiedDatabase[i][0]==country && unmodifiedDatabase[i][1]==date && unmodifiedDatabase[i][2]==rank){tempid=unmodifiedDatabase[i][3];}
     }
     if(tempid==-1){return;}
     for(let i=0;i<unmodifiedDict.length;i++){
         if(unmodifiedDict[i][0]==tempid){
-            let chararray = [unmodifiedDict[i][12], unmodifiedDict[i][13], unmodifiedDict[i][17], unmodifiedDict[i][18], unmodifiedDict[i][20], unmodifiedDict[i][21] ];
+            let chararray = [unmodifiedDict[i][12], unmodifiedDict[i][13], unmodifiedDict[i][17], unmodifiedDict[i][18], unmodifiedDict[i][20], unmodifiedDict[i][21]];
             console.log(chararray);
+            console.log("here in searchandreturn");
             return chararray;
         }
     }
