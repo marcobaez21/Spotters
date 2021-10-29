@@ -1,3 +1,4 @@
+import { SSL_OP_NO_TLSv1_2, SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 import fs from "fs";
 
 let database = [];
@@ -28,8 +29,8 @@ fs.readFile("dict_10countries_2019.csv", "utf8", function (err, data) {
 
 fs.readFile("dict_10countries_2019_unmodified.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
-    dict = rows.map(function (row) { return row.split(","); })
-    dict.shift();
+    unmodifiedDict = rows.map(function (row) { return row.split(","); })
+    unmodifiedDict.shift();
 });
 
 export function search(rank, country, date, artist, title) {
@@ -229,7 +230,7 @@ export function ExportDatabase(){
 }
 
 export function averageCharacteristics(){
-    console.log("beginning of avgchar");
+   // console.log("beginning of avgchar");
     //================row================
     // 0 - Global
     // 1 - USA
@@ -244,21 +245,46 @@ export function averageCharacteristics(){
     // 5 - average liveliness
     // 6 - average valence
    // let arr = new Array(10).fill(new Array(7).fill(0));
-   let arr = [[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]];
-    const map = new Map([["Global", 0], ["USA", 1], ["UK", 2], ["Canada", 3],["Sweden", 4], ["Mexico", 5],["France", 6], ["Malaysia", 7],["Netherlands", 8], ["Australia", 9]]);
+   let arr = [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+              [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]];
+   //let arr = [];
+   const map = new Map([["Global", 0], ["USA", 1], ["UK", 2], ["Canada", 3],["Sweden", 4], ["Mexico", 5],["France", 6], ["Malaysia", 7],["Netherlands", 8], ["Australia", 9]]);
+   let location = 0;
+   console.log("data: "+unmodifiedDatabase[0][0]);
+   console.log("map output: (should be 0)"+map.get(unmodifiedDatabase[0][0]));
+   console.log(typeof(map.get(unmodifiedDatabase[0][0])));
+   console.log("id: (should be 1)"+unmodifiedDatabase[1][3]);
+   console.log(typeof(unmodifiedDatabase[1][3]));
+   console.log("first song"+unmodifiedDict[0]);
+   let id2 = parseInt(unmodifiedDatabase[0][3]);
+   console.log("dancability (should be 0.83): "+parseFloat(unmodifiedDict[id2][12]));
+   console.log(typeof(parseFloat(unmodifiedDict[0][12])));
+   console.log(unmodifiedDatabase.length);
+ 
     for(let i = 0; i < unmodifiedDatabase.length; ++i){
-        const location = parseInt(map.get(unmodifiedDatabase[i][0]));
+        location = map.get(unmodifiedDatabase[i][0]);
+       // console.log(map.get(unmodifiedDatabase[i][0]));
+       // console.log(typeof(location));
        // console.log("loc"+location);
         let id = parseInt(unmodifiedDatabase[i][3]);
        // console.log("id"+id)
-        arr[0][0] += 1;
-        arr[0][1] += parseInt(unmodifiedDict[id][12]);
-        arr[location][2] += parseInt(unmodifiedDict[id][13]);
-        arr[location][3] += parseInt(unmodifiedDict[id][17]);
-        arr[location][4] += parseInt(unmodifiedDict[id][18]);
-        arr[location][5] += parseInt(unmodifiedDict[id][20]);
-        arr[location][6] += parseInt(unmodifiedDict[id][21]);
+        arr[location][0] += 1.0;
+       // arr[location][1] += (1.0*(unmodifiedDict[id][12]));
+       // arr[location][2] += (1.0*(unmodifiedDict[id][13]));
+        arr[location][3] += (1.0*(unmodifiedDict[id][17]));
+        arr[location][4] += (1.0*(unmodifiedDict[id][18]));
+        arr[location][5] += (1.0*(unmodifiedDict[id][20]));
+        arr[location][6] += (1.0*(unmodifiedDict[id][21]));
     }
+    console.log(arr);
     for(let i = 0; i < arr.length; ++i){
         const total = arr[i][0];
         arr[i][1] /= total;
@@ -270,7 +296,9 @@ export function averageCharacteristics(){
     }
     averageCharacteristicsByLocation = arr;
     console.log("here in averagecharacteristics");
+    //console.log(arr);
     return averageCharacteristicsByLocation;
+    return arr;
 }
 
 export function tenArtistTopTen(){
@@ -285,23 +313,27 @@ export function tenArtistTopTen(){
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //sort instead of using max heap
     for(let i = 0; i < 10; ++i)
         tenArtistsMostTop10.push([sorted[i][0], sorted[i][1]]);
+        
+        console.log(tenArtistsMostTop10);
 }
 
 export function searchAndReturnCharacteristics(rank, country, date){
-    //let chararray = [];
-    let tempid = -1;
-    let [year, month, day] = date.split('-');
-        date = month + "/" + day + "/" + year;
+    rank = rank+".0"; //need to concatonate ".0" since the rank in the database is stored as 1.0 where the frontend returns 1
+    let chararray = [-1, -1, -1, -1, -1, -1, -1];
+   let tempid = -1;
+    let [year, month, day] = date.split('-'); //changing date to databases form
+        date = day + "/" + month + "/" + year;
     for(let i=0;i<unmodifiedDatabase.length;i++){ //used to search database to find the id of the song we want characteristics from
-        if(unmodifiedDatabase[i][0]==country && unmodifiedDatabase[i][1]==date && unmodifiedDatabase[i][2]==rank){tempid=unmodifiedDatabase[i][3];}
+       if(unmodifiedDatabase[i][0]==country && unmodifiedDatabase[i][1]==date && unmodifiedDatabase[i][2] == rank ){tempid=unmodifiedDatabase[i][3];}
     }
-    if(tempid==-1){return;}
-    for(let i=0;i<unmodifiedDict.length;i++){
-        if(unmodifiedDict[i][0]==tempid){
-            let chararray = [unmodifiedDict[i][12], unmodifiedDict[i][13], unmodifiedDict[i][17], unmodifiedDict[i][18], unmodifiedDict[i][20], unmodifiedDict[i][21]];
+   // if(tempid==-1){return;}
+    for(let i=0;i<unmodifiedDict.length;i++){ //used to search through the dict with our tempid and then returning an array of song characteristics
+        if(parseInt(unmodifiedDict[i][0])==parseInt(tempid)){
+           chararray = [ unmodifiedDict[i][12], unmodifiedDict[i][13], unmodifiedDict[i][17], unmodifiedDict[i][18], unmodifiedDict[i][20], unmodifiedDict[i][21]];
             console.log(chararray);
             console.log("here in searchandreturn");
             return chararray;
         }
     }
+    return chararray;
 }
