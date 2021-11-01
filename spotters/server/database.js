@@ -6,7 +6,9 @@ let dict = [];
 let unmodifiedDatabase = [];
 let unmodifiedDict = [];
 let averageCharacteristicsByLocation = [];
-let tenArtistsMostTop10 = [];
+let mostFollowers = []; //feature 4
+let tenSongsMostNumber1 = []; //feature 5
+let tenArtistsMostTop10 = []; //feature 6
 
 fs.readFile("data_10countries_2019.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
@@ -304,4 +306,44 @@ export function searchAndReturnCharacteristics(rank, country, date){
             return chararray;
         }
     }
+}
+
+export function topArtistMostFollowers(){ //feature 4
+    let map = new Map();
+    for(let i = 0; i < unmodifiedDict.length; ++i){
+        const artists = unmodifiedDict[i][3].split(' - ');
+        if(artists.size() != 1)
+            continue;
+        map.set(unmodifiedDict[i][3], parseInt(unmodifiedDict[i][6]));
+    }
+    let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
+    for(let i = 0; i < 10; ++i)
+        mostFollowers.push(sorted[i][0], sorted[i][1]); //[artist name, count] : [string, int] hopefully
+}
+
+export function topSongsMostNumber1(){ //feature 5
+    let map = new Map();
+    for(let i = 0; i < unmodifiedDatabase.length; i += 200){
+        const id = parseInt(unmodifiedDatabase[i][3]);
+        const x = map.has(id) ? map.get(id) + 1 : 1;
+        map.set(id, x);
+    }
+    let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
+    for(let i = 0; i < 10; ++i)
+        tenSongsMostNumber1.push([unmodifiedDict[sorted[i][0]][2], unmodifiedDict[sorted[i][0]][3], sorted[i][1]]); //[song name, artist name, count] : [string, string, int] hopefully
+}
+
+export function topArtistsMostNumber1(){ //feature 6
+    let map = new Map();
+    for(let i = 0; i < unmodifiedDatabase.length; i += 200){
+        const artists = unmodifiedDict[parseInt(unmodifiedDatabase[i][3])][3].split(' - ');
+        for(let j = 0; j < artists.length; ++j){
+            const key = artists[j];
+            const value = map.has(key) ? map.get(key) + 1 : 1;
+            map.set(key, value);
+        }
+    }
+    let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
+    for(let i = 0; i < 10; ++i)
+        tenArtistsMostTop10.push([unmodifiedDict[sorted[i][0]][3], sorted[i][1]]); //[artist name, count] : [string, int] hopefully
 }
