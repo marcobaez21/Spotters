@@ -302,9 +302,10 @@ export function averageCharacteristics(){
 }
 
 export function tenArtistTopTen(){
+    console.log("in top ten one");
     let map = new Map();
     for(let i = 0; i < unmodifiedDatabase.length; ++i){
-        const artists = dict[unmodifiedDatabase[i][3]][3].split(' - ');
+        const artists = dict[1*(unmodifiedDatabase[i][3])][3].split(' - ');
         for(let j = 0; j < artists.length; ++j)
             map.set(artists[j], map.get(artists[j] + 1 || 1));
         if(unmodifiedDatabase[i][2] == '10') //skips to the next top 10
@@ -314,6 +315,7 @@ export function tenArtistTopTen(){
     for(let i = 0; i < 10; ++i)
         tenArtistsMostTop10.push([sorted[i][0], sorted[i][1]]);
         
+        console.log("in top ten");
         console.log(tenArtistsMostTop10);
 }
 
