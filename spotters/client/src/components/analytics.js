@@ -79,13 +79,15 @@ export default class Analytics extends Component {
         this.updateF3Chart();
     };
 
-    async updateF1Chart() {
+
+
+     updateF1Chart() {
         let F1Data = { labels: [], average: [], data: [] };
 
         //Need to pass in labels, average, and data
-        await fetch('http://localhost:5000/posts/analytics/f1')
+         fetch('http://localhost:5000/posts/analytics/f1')
             .then(res => res.json())
-            .then(data => F1Data = data);
+            .then((data) => {F1Data = data;});
 
         this.setState({
             F1Data: {
@@ -103,13 +105,13 @@ export default class Analytics extends Component {
         });
     };
 
-    updateF2Chart() {
+     updateF2Chart() {
         let F2Data = { labels: [], data: [] };
 
         //Need to pass in labels, and data
-        fetch('http://localhost:5000/posts/analytics/f2')
+         fetch('http://localhost:5000/posts/analytics/f2')
             .then(res => res.json())
-            .then(data => F2Data = data);
+            .then((data) => {F2Data = data;});
 
         this.setState({
             F2Data: {
@@ -123,13 +125,13 @@ export default class Analytics extends Component {
         });
     };
 
-    async updateF3Chart() {
+     updateF3Chart() {
         let F3Data = { labels: [], data: [] };
 
         //Need to pass in labels, and data
-        await fetch('http://localhost:5000/posts/analytics/f3')
+         fetch('http://localhost:5000/posts/analytics/f3')
             .then(res => res.json())
-            .then(data => F3Data = data);
+            .then((data) => {F3Data = data;});
 
         this.setState({
             F3Data: {
