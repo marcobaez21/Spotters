@@ -3,6 +3,7 @@ import fs from "fs";
 
 let database = [];
 let dict = [];
+let top10 = [];
 
 let unmodifiedDatabase = [];
 let unmodifiedDict = [];
@@ -379,4 +380,35 @@ export function topArtistsMostNumber1(){ //feature 6
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
     for(let i = 0; i < 10; ++i)
         tenArtistsMostTop10.push([unmodifiedDict[sorted[i][0]][3], sorted[i][1]]); //[artist name, count] : [string, int] hopefully
+}
+
+export function top10genre(country) { //Jessie's feature 2 function
+    let mostTop10 = [];
+    let tempA = [];
+    let tempB = [];
+    let map = new Map();
+
+    for (let i = 0; i < unmodifiedDict.length; ++i) {
+        let gen = unmodifiedDict[i][5];
+        
+        if (!map.has(gen)) 
+            map.set(gen, 0);
+
+        if (parseInt(unmodifiedDatabase[i][2]) >= 1 && parseInt(unmodifiedDatabase[i][2]) <= 50)
+            map.set(gen, map.get(gen) + 1);
+        else if (parseInt(unmodifiedDatabase[i][2]) >= 51 && parseInt(unmodifiedDatabase[i][2] <= 100))
+            map.set(gen, map.get(gen) + 1/*0.8*/);
+        else if (parseInt(unmodifiedDatabase[i][2]) >= 101 && parseInt(unmodifiedDatabase[i][2]) <= 200)
+            map.set(gen, map.get(gen) + 1/*0.7*/);
+    }
+
+    let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]);
+    for(let i = 0; i < 10; ++i) {
+        mostTop10.push([sorted[i][0], sorted[i][1]]);
+    }
+
+    top10 = mostTop10;
+    console.log("Top 10: " + top10); // check
+
+    return top10;
 }

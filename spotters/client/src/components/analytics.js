@@ -81,11 +81,11 @@ export default class Analytics extends Component {
 
 
 
-     updateF1Chart() {
+    async  updateF1Chart() {
         let F1Data = { labels: [], average: [], data: [] };
 
         //Need to pass in labels, average, and data
-         fetch('http://localhost:5000/posts/analytics/f1')
+        await fetch('http://localhost:5000/posts/analytics/f1')
             .then(res => res.json())
             .then((data) => {F1Data = data;});
 
@@ -105,11 +105,11 @@ export default class Analytics extends Component {
         });
     };
 
-     updateF2Chart() {
+    async updateF2Chart() {
         let F2Data = { labels: [], data: [] };
 
         //Need to pass in labels, and data
-         fetch('http://localhost:5000/posts/analytics/f2')
+        await fetch('http://localhost:5000/posts/analytics/f2')
             .then(res => res.json())
             .then((data) => {F2Data = data;});
 
@@ -125,11 +125,11 @@ export default class Analytics extends Component {
         });
     };
 
-     updateF3Chart() {
+    async updateF3Chart() {
         let F3Data = { labels: [], data: [] };
 
         //Need to pass in labels, and data
-         fetch('http://localhost:5000/posts/analytics/f3')
+        await fetch('http://localhost:5000/posts/analytics/f3')
             .then(res => res.json())
             .then((data) => {F3Data = data;});
 
