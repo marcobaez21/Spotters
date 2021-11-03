@@ -27,6 +27,18 @@ export default class Analytics extends Component {
                 labels: [],
                 datasets: [],
             },
+            F4Data: {
+                labels: [],
+                datasets: [],
+            },
+            F5Data: {
+                labels: [],
+                datasets: [],
+            },
+            F6Data: {
+                labels: [],
+                datasets: [],
+            },
             rankF1: "",
             countryF1: "Global",
             dateF1: "",
@@ -77,6 +89,9 @@ export default class Analytics extends Component {
         this.updateF1Chart();
         this.updateF2Chart();
         this.updateF3Chart();
+        this.updateF4Chart();
+        this.updateF5Chart();
+        this.updateF6Chart();
     };
 
 
@@ -125,13 +140,14 @@ export default class Analytics extends Component {
         });
     };
 
+
     async updateF3Chart() {
         let F3Data = { labels: [], data: [] };
 
         //Need to pass in labels, and data
         await fetch('http://localhost:5000/posts/analytics/f3')
             .then(res => res.json())
-            .then((data) => {F3Data = data;});
+            .then(data => F3Data = data);
 
         this.setState({
             F3Data: {
@@ -139,6 +155,66 @@ export default class Analytics extends Component {
                 datasets: [{
                     label: "Which Artists have the most songs in top 10",
                     data: F3Data.data,
+                    backgroundColor: ["rgba(22, 22, 29, 0.5)"]
+                }],
+            }
+        })
+    };
+
+    async updateF4Chart() {
+        let F4Data = { labels: [], data: [] };
+
+        //Need to pass in labels, and data
+        await fetch('http://localhost:5000/posts/analytics/f4')
+            .then(res => res.json())
+            .then(data => F4Data = data);
+
+        this.setState({
+            F4Data: {
+                labels: F4Data.labels,
+                datasets: [{
+                    label: "Which Artists have the most Followers?",
+                    data: F4Data.data,
+                    backgroundColor: ["rgba(22, 22, 29, 0.5)"]
+                }],
+            }
+        })
+    };
+
+    async updateF5Chart() {
+        let F5Data = { labels: [], data: [] };
+
+        //Need to pass in labels, and data
+        await fetch('http://localhost:5000/posts/analytics/f5')
+            .then(res => res.json())
+            .then(data => F5Data = data);
+
+        this.setState({
+            F5Data: {
+                labels: F5Data.labels,
+                datasets: [{
+                    label: "top songs with most num1 spots?",
+                    data: F5Data.data,
+                    backgroundColor: ["rgba(22, 22, 29, 0.5)"]
+                }],
+            }
+        })
+    };
+
+    async updateF6Chart() {
+        let F6Data = { labels: [], data: [] };
+
+        //Need to pass in labels, and data
+        await fetch('http://localhost:5000/posts/analytics/f6')
+            .then(res => res.json())
+            .then(data => F6Data = data);
+
+        this.setState({
+            F6Data: {
+                labels: F6Data.labels,
+                datasets: [{
+                    label: "Top Artists with most Number 1 Songs?",
+                    data: F6Data.data,
                     backgroundColor: ["rgba(22, 22, 29, 0.5)"]
                 }],
             }
@@ -265,6 +341,30 @@ export default class Analytics extends Component {
                             <Row>
                                 <Bar
                                     data={this.state.F3Data}
+                                    options={{
+                                        scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
+                                    }}
+                                />
+                            </Row>
+                            <Row>
+                                <Bar
+                                    data={this.state.F4Data}
+                                    options={{
+                                        scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
+                                    }}
+                                />
+                            </Row>
+                            <Row>
+                                <Bar
+                                    data={this.state.F5Data}
+                                    options={{
+                                        scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
+                                    }}
+                                />
+                            </Row>
+                            <Row>
+                                <Bar
+                                    data={this.state.F6Data}
                                     options={{
                                         scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
                                     }}
