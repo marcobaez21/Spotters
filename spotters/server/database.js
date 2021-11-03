@@ -282,6 +282,8 @@ export function averageCharacteristics(){
         arr[location][0] += 1.0;
        // arr[location][1] += (1.0*(unmodifiedDict[id][12]));
        // arr[location][2] += (1.0*(unmodifiedDict[id][13]));
+        arr[location][1] += (1.0*(unmodifiedDict[id][17]));
+        arr[location][2] += (1.0*(unmodifiedDict[id][18]));
         arr[location][3] += (1.0*(unmodifiedDict[id][17]));
         arr[location][4] += (1.0*(unmodifiedDict[id][18]));
         arr[location][5] += (1.0*(unmodifiedDict[id][20]));
@@ -305,21 +307,30 @@ export function averageCharacteristics(){
 }
 
 export function tenArtistTopTen(){
-    console.log("in top ten one");
+    tenArtistsMostTop10 = [];
     let map = new Map();
-    for(let i = 0; i < unmodifiedDatabase.length; ++i){
-        const artists = dict[1*(unmodifiedDatabase[i][3])][3].split(' - ');
-        for(let j = 0; j < artists.length; ++j)
-            map.set(artists[j], map.get(artists[j] + 1 || 1));
+    for(let i = 0; i < (unmodifiedDatabase.length - 1); ++i){
+        const artists = unmodifiedDict[parseInt(unmodifiedDatabase[i][3])][3].split(' - ');
+
+        for(let j = 0; j < artists.length; ++j) {
+            if (artists[j] != '') {
+                if (!map.has(artists[j])) 
+                    map.set(artists[j], 0);
+                map.set(artists[j], map.get(artists[j]) + 1);
+            }
+        }
         if(unmodifiedDatabase[i][2] == '10') //skips to the next top 10
             i += 190; //possible bug here
     }
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //sort instead of using max heap
     for(let i = 0; i < 10; ++i)
-        tenArtistsMostTop10.push([sorted[i][0], sorted[i][1]]);
+        tenArtistsMostTop10 .push([sorted[i][0], sorted[i][1]]);
         
+        console.log("First: " + tenArtistsMostTop10[0][0]);
         console.log("in top ten");
         console.log(tenArtistsMostTop10);
+
+    return tenArtistsMostTop10 ;
 }
 
 export function searchAndReturnCharacteristics(rank, country, date){
@@ -391,6 +402,7 @@ export function top10genre(country) { //Jessie's feature 2 function
     for (let i = 0; i < unmodifiedDict.length; ++i) {
         let gen = unmodifiedDict[i][5];
         
+        if(gen!='' && gen!="n-a"){
         if (!map.has(gen)) 
             map.set(gen, 0);
 
@@ -400,6 +412,7 @@ export function top10genre(country) { //Jessie's feature 2 function
             map.set(gen, map.get(gen) + 1/*0.8*/);
         else if (parseInt(unmodifiedDatabase[i][2]) >= 101 && parseInt(unmodifiedDatabase[i][2]) <= 200)
             map.set(gen, map.get(gen) + 1/*0.7*/);
+        }
     }
 
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]);

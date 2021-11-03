@@ -16,6 +16,7 @@ let CharacteristicsLabels = [];
 let SongCharacteristics = [];
 let globalaverages = [];
 let TopGenres = [];
+let Artists = [];
 
 //Responds to a get request from the front-end coming from /explore
 router.get("/explore", function (req, res) {
@@ -120,13 +121,21 @@ router.get("/analytics/f2", function (req, res) {
     });
 });
 
-router.post("analytics/f3", function (req, res) {
-    //top10s = tenArtistTopTen();
-
-});
-
 router.get("/analytics/f3", function (req, res) {
- //   top10s = tenArtistTopTen();
+    Artists = tenArtistTopTen();
+    let tempA = [];
+    let tempB = [];
+
+    // Put top artists into tempA and count into tempB
+    for (let j = 0; j < Artists.length; j++) {
+        tempA.push([Artists[j][0]]);
+        tempB.push([Artists[j][1]]);
+    }
+      
+    res.json({ 
+        labels: tempA,
+        data: tempB
+    });
 });
 
 export default router;     
