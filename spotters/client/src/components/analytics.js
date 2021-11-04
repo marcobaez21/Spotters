@@ -155,7 +155,7 @@ export default class Analytics extends Component {
                 datasets: [{
                     label: "Which Artists have the most songs in top 10",
                     data: F3Data.data,
-                    backgroundColor: ["rgba(22, 22, 29, 0.5)"]
+                    backgroundColor: ["rgba(30, 215, 96, 0.5)"]
                 }],
             }
         })
@@ -195,7 +195,7 @@ export default class Analytics extends Component {
                 datasets: [{
                     label: "top songs with most num1 spots?",
                     data: F5Data.data,
-                    backgroundColor: ["rgba(22, 22, 29, 0.5)"]
+                    backgroundColor: ["rgba(30, 215, 96, 0.5)"]
                 }],
             }
         })

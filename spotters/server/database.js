@@ -11,6 +11,9 @@ let averageCharacteristicsByLocation = [];
 let mostFollowers = []; //feature 4
 let tenSongsMostNumber1 = []; //feature 5
 let tenArtistsMostTop10 = []; //feature 6
+let topArtistsMostNum1 = [];
+
+
 
 fs.readFile("data_10countries_2019.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
@@ -354,19 +357,29 @@ export function searchAndReturnCharacteristics(rank, country, date){
 }
 
 export function topArtistMostFollowers(){ //feature 4
+    if(mostFollowers.length!=0){return mostFollowers;}
     let map = new Map();
     for(let i = 0; i < unmodifiedDict.length; ++i){
-        const artists = unmodifiedDict[i][3].split(' - ');
-        if(artists.size() != 1)
+        if(unmodifiedDict[i].length <= 1)
             continue;
+        const artists = unmodifiedDict[i][3].split(' - '); //original
+        //if(artists.size() != 1) //original
+        if(artists.length != 1)
+            continue;
+        
         map.set(unmodifiedDict[i][3], parseInt(unmodifiedDict[i][6]));
     }
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
-    for(let i = 0; i < 10; ++i)
+    for(let i = 1; i < 11; ++i)
         mostFollowers.push(sorted[i][0], sorted[i][1]); //[artist name, count] : [string, int] hopefully
+        console.log("First: " + mostFollowers[0][0]);
+        console.log("top most followers");
+        console.log(mostFollowers);
+    return mostFollowers;   
 }
 
 export function topSongsMostNumber1(){ //feature 5
+    if(tenSongsMostNumber1.length!=0){return tenSongsMostNumber1;}
     let map = new Map();
     for(let i = 0; i < unmodifiedDatabase.length; i += 200){
         const id = parseInt(unmodifiedDatabase[i][3]);
@@ -374,13 +387,25 @@ export function topSongsMostNumber1(){ //feature 5
         map.set(id, x);
     }
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
-    for(let i = 0; i < 10; ++i)
+    for(let i = 0; i < 11; ++i){
+        if(i==1)
+            continue;
         tenSongsMostNumber1.push([unmodifiedDict[sorted[i][0]][2], unmodifiedDict[sorted[i][0]][3], sorted[i][1]]); //[song name, artist name, count] : [string, string, int] hopefully
+    }
+        console.log("First: " + tenSongsMostNumber1[0][0]);
+        console.log("ten Songs Most Number 1");
+        console.log(tenSongsMostNumber1);
+    return tenSongsMostNumber1
 }
 
 export function topArtistsMostNumber1(){ //feature 6
+    if(topArtistsMostNum1.length!=0){return topArtistsMostNum1;}
     let map = new Map();
+    //console.log(unmodifiedDict.length);
     for(let i = 0; i < unmodifiedDatabase.length; i += 200){
+        //console.log(parseInt(unmodifiedDatabase[i][3]));
+        if(isNaN(parseInt(unmodifiedDatabase[i][3])) ||  unmodifiedDict[parseInt(unmodifiedDatabase[i][3])].length <= 1)
+            continue;
         const artists = unmodifiedDict[parseInt(unmodifiedDatabase[i][3])][3].split(' - ');
         for(let j = 0; j < artists.length; ++j){
             const key = artists[j];
@@ -389,12 +414,22 @@ export function topArtistsMostNumber1(){ //feature 6
         }
     }
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
-    for(let i = 0; i < 10; ++i)
-        tenArtistsMostTop10.push([unmodifiedDict[sorted[i][0]][3], sorted[i][1]]); //[artist name, count] : [string, int] hopefully
+    for(let i = 2; i < 13; ++i){
+        if(i==8)
+            continue;
+        //console.log(sorted[i][0]);
+        topArtistsMostNum1.push([sorted[i][0], sorted[i][1]]); //[artist name, count] : [string, int] hopefully
+        
+    }
+        console.log("First: " + topArtistsMostNum1[0][0]);
+        console.log("ten artists most top 10");
+        console.log(topArtistsMostNum1);
+    return topArtistsMostNum1;
 }
 
 export function top10genre(country) { //Jessie's feature 2 function
     let mostTop10 = [];
+   // if(top10.length != 0){return mostTop10;}
     let tempA = [];
     let tempB = [];
     let map = new Map();
