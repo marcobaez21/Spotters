@@ -79,10 +79,24 @@ router.post("/backup", function(req, res) {
     ExportDatabase();
 });
 
-router.get("/analytics/f1", function(req, res) {
-    //let globalaverages = [AvgCharacteristics[0][1],AvgCharacteristics[0][2],AvgCharacteristics[0][3],AvgCharacteristics[0][4],AvgCharacteristics[0][5],AvgCharacteristics[0][6]];
-    res.json(CharacteristicsLabels, globalaverages, SongCharacteristics);
+router.post("/analytics/f1", function(req, res) {
+    console.log("in f1 post");
+    CharacteristicsLabels = ["average danceability", "average energy", "average speechiness", "average acoustics", "average liveliness", "total number of songs", "average valence"];
+    //AvgCharacteristics = averageCharacteristics();
+    //globalaverages = [AvgCharacteristics[0][1],AvgCharacteristics[0][2],AvgCharacteristics[0][3],AvgCharacteristics[0][4],AvgCharacteristics[0][5],AvgCharacteristics[0][6]];
+    SongCharacteristics = searchAndReturnCharacteristics(req.body.rank, req.body.country, req.body.date);
 });
+
+router.get("/analytics/f1", function(req, res) {
+    AvgCharacteristics = averageCharacteristics();
+    globalaverages = [AvgCharacteristics[0][1],AvgCharacteristics[0][2],AvgCharacteristics[0][3],AvgCharacteristics[0][4],AvgCharacteristics[0][5],AvgCharacteristics[0][6]];
+    res.json({
+        labels: CharacteristicsLabels,
+        average: globalaverages,
+        data: SongCharacteristics
+    });
+});
+
 
 router.get("/analytics/f2", function(req, res) {
     TopGenres = top10genre();
@@ -124,9 +138,11 @@ router.get("/analytics/f4", function(req, res) {
     let tempB = [];
 
     // Put top artists into tempA and count into tempB
-    for (let j = 0; j < TopFollowers.length; j++) {
-        tempA.push([TopFollowers[j][0]]);
-        tempB.push([TopFollowers[j][1]]);
+    for (let j = 0; j < TopFollowers.length-1; j+=2) {
+       // tempA.push([TopFollowers[j][0]]);
+      //  tempB.push([TopFollowers[j][1]]);
+      tempA.push(TopFollowers[j]);
+      tempB.push(TopFollowers[j+1]);
     }
     res.json({ 
         labels: tempA,
@@ -143,7 +159,7 @@ router.get("/analytics/f5", function(req, res) {
     // Put top artists into tempA and count into tempB
     for (let j = 0; j < songsMostNum1.length; j++) {
         tempA.push([songsMostNum1[j][0]]);
-        tempB.push([songsMostNum1[j][1]]);
+        tempB.push([songsMostNum1[j][2]]);
     }
     res.json({ 
         labels: tempA,
@@ -169,13 +185,6 @@ router.get("/analytics/f6", function(req, res) {
 
 });
 
-router.post("/analytics/f1", function(req, res) {
-    console.log("in f1 post");
-    CharacteristicsLabels = ["average danceability", "average energy", "average speechiness", "average acoustics", "average liveliness", "total number of songs", "average valence"];
-    AvgCharacteristics = averageCharacteristics();
-    globalaverages = [AvgCharacteristics[0][1],AvgCharacteristics[0][2],AvgCharacteristics[0][3],AvgCharacteristics[0][4],AvgCharacteristics[0][5],AvgCharacteristics[0][6]];
-    SongCharacteristics = searchAndReturnCharacteristics(req.body.rank, req.body.country, req.body.date);
-});
 
 router.post("/analytics/f2", function (req, res) {
     
