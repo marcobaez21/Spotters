@@ -81,7 +81,7 @@ router.post("/backup", function(req, res) {
 
 router.post("/analytics/f1", function(req, res) {
     console.log("in f1 post");
-    CharacteristicsLabels = ["average danceability", "average energy", "average speechiness", "average acoustics", "average liveliness", "total number of songs", "average valence"];
+    CharacteristicsLabels = ["average danceability", "average energy", "average speechiness", "average acoustics", "average liveliness", "average valence"];
     //AvgCharacteristics = averageCharacteristics();
     //globalaverages = [AvgCharacteristics[0][1],AvgCharacteristics[0][2],AvgCharacteristics[0][3],AvgCharacteristics[0][4],AvgCharacteristics[0][5],AvgCharacteristics[0][6]];
     SongCharacteristics = searchAndReturnCharacteristics(req.body.rank, req.body.country, req.body.date);
