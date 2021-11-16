@@ -14,6 +14,7 @@ let tenArtistsMostTop10 = []; //feature 6
 let topArtistsMostNum1 = [];
 
 let tenArtistsMostTop10MAP = new Map();
+let topArtistsMostNum1MAP = new Map();
 
 
 
@@ -147,7 +148,7 @@ export function dateConvertToStore(date){
 }
 
 export function insertAndUpdate(rank, country, date, artist, song){
-    let id = songIDExist(song, artist);
+    let id = songIDExist(song, artist, rank);
     let d = dateConvertToStore(date); // convert date format
     for(let i = 0; i < database.length; ++i){
         if(database[i][0] == country && database[i][1] == d && database[i][2] == rank){
@@ -161,33 +162,65 @@ export function insertAndUpdate(rank, country, date, artist, song){
 
     //incremental analytics
     //artists with most top 10:
-
-    const artists = artist.split(' - ');
-    for(let j = 0; j < artists.length; ++j) {
-        if (artists[j] != '') {
-            if (!tenArtistsMostTop10MAP.has(artists[j])) 
-                tenArtistsMostTop10MAP.set(artists[j], 0);
-            tenArtistsMostTop10MAP.set(artists[j], tenArtistsMostTop10MAP.get(artists[j]) + 1);
+    if(parseInt(rank) <= 10){
+        const artists = artist.split(' - ');
+        for(let j = 0; j < artists.length; ++j) {
+            if (artists[j] != '') {
+                if (!tenArtistsMostTop10MAP.has(artists[j])) 
+                    tenArtistsMostTop10MAP.set(artists[j], 0);
+                tenArtistsMostTop10MAP.set(artists[j], tenArtistsMostTop10MAP.get(artists[j]) + 1);
+            }
         }
-    }
+    }   
     //END - artists with most top 10
+
+    //artists with most #1:
+    if(parseInt(rank) == 1){
+        const artists = artist.split(' - ');
+        for(let j = 0; j < artists.length; ++j) {
+            if (artists[j] != '') {
+                if (!topArtistsMostNum1MAP.has(artists[j])) 
+                    topArtistsMostNum1MAP.set(artists[j], 0);
+                topArtistsMostNum1MAP.set(artists[j], topArtistsMostNum1MAP.get(artists[j]) + 1);
+            }
+        }
+    }   
+    //END - artists with most #1
+
 }
 
-export function songIDExist(title, artist){ //creates dict entry if does not exist
+export function songIDExist(title, artist, rank){ //creates dict entry if does not exist
     for(let i = 0; i < dict.length; ++i){
         if(dict[i][2] == title && dict[i][3] == artist){
             //incremental analytics
             //artists with most top 10:
-            const artists = dict[i][3].split(' - ');
-            for(let j = 0; j < artists.length; ++j) {
-                if (artists[j] != '') {
-                    if(tenArtistsMostTop10MAP.get(artists[j]) == 1)
-                        tenArtistsMostTop10MAP.delete(tenArtistsMostTop10MAP.get(artists[j]));
-                    else
-                        tenArtistsMostTop10MAP.set(artists[j], tenArtistsMostTop10MAP.get(artists[j]) - 1);
+            if(parseInt(rank) <= 10){
+                const artists = dict[i][3].split(' - ');
+                for(let j = 0; j < artists.length; ++j) {
+                    if (artists[j] != '') {
+                        if(tenArtistsMostTop10MAP.get(artists[j]) == 1)
+                            tenArtistsMostTop10MAP.delete(tenArtistsMostTop10MAP.get(artists[j]));
+                        else
+                            tenArtistsMostTop10MAP.set(artists[j], tenArtistsMostTop10MAP.get(artists[j]) - 1);
+                    }
                 }
             }
             //END - artists with most top 10
+
+            //artists with most #1:
+            if(parseInt(rank) == 1){
+                const artists = dict[i][3].split(' - ');
+                for(let j = 0; j < artists.length; ++j) {
+                    if (artists[j] != '') {
+                        if(topArtistsMostNum1MAP.get(artists[j]) == 1)
+                            topArtistsMostNum1MAP.delete(topArtistsMostNum1MAP.get(artists[j]));
+                        else
+                            topArtistsMostNum1MAP.set(artists[j], topArtistsMostNum1MAP.get(artists[j]) - 1);
+                    }
+                }
+            }   
+            //END - artists with most #1
+            
             return i;
         }
     }
@@ -207,16 +240,33 @@ export function remove(rank, country, date, artist, song){
     if(foundindex != -1) {
         //incremental analytics
         //artists with most top 10:
-        const artists = dict[database[foundindex][3]][3].split(' - ');
-        for(let j = 0; j < artists.length; ++j) {
-            if (artists[j] != '') {
-                if(tenArtistsMostTop10MAP.get(artists[j]) == 1)
-                    tenArtistsMostTop10MAP.delete(tenArtistsMostTop10MAP.get(artists[j]));
-                else
-                    tenArtistsMostTop10MAP.set(artists[j], tenArtistsMostTop10MAP.get(artists[j]) - 1);
+        if(parseInt(rank) <= 10){
+            const artists = dict[database[foundindex][3]][3].split(' - ');
+            for(let j = 0; j < artists.length; ++j) {
+                if (artists[j] != '') {
+                    if(tenArtistsMostTop10MAP.get(artists[j]) == 1)
+                        tenArtistsMostTop10MAP.delete(tenArtistsMostTop10MAP.get(artists[j]));
+                    else
+                        tenArtistsMostTop10MAP.set(artists[j], tenArtistsMostTop10MAP.get(artists[j]) - 1);
+                }
             }
         }
         //END - artists with most top 10
+
+        //artists with most #1:
+        if(parseInt(rank) == 1){
+            const artists = dict[database[foundindex][3]][3].split(' - ');
+            for(let j = 0; j < artists.length; ++j) {
+                if (artists[j] != '') {
+                    if(topArtistsMostNum1MAP.get(artists[j]) == 1)
+                        topArtistsMostNum1MAP.delete(topArtistsMostNum1MAP.get(artists[j]));
+                    else
+                        topArtistsMostNum1MAP.set(artists[j], topArtistsMostNum1MAP.get(artists[j]) - 1);
+                }
+            }
+        }
+        //END - artists with most #1
+
         database.splice(foundindex, 1);
     }
 }
@@ -441,21 +491,21 @@ export function topSongsMostNumber1(){ //feature 5
 }
 
 export function topArtistsMostNumber1(){ //feature 6
-    if(topArtistsMostNum1.length!=0){return topArtistsMostNum1;}
-    let map = new Map();
-    //console.log(unmodifiedDict.length);
-    for(let i = 0; i < unmodifiedDatabase.length; i += 200){
-        //console.log(parseInt(unmodifiedDatabase[i][3]));
-        if(isNaN(parseInt(unmodifiedDatabase[i][3])) ||  unmodifiedDict[parseInt(unmodifiedDatabase[i][3])].length <= 1)
-            continue;
-        const artists = unmodifiedDict[parseInt(unmodifiedDatabase[i][3])][3].split(' - ');
-        for(let j = 0; j < artists.length; ++j){
-            const key = artists[j];
-            const value = map.has(key) ? map.get(key) + 1 : 1;
-            map.set(key, value);
+    // if(topArtistsMostNum1.length!=0){return topArtistsMostNum1;}
+
+    if(topArtistsMostNum1.length == 0){
+        for(let i = 0; i < unmodifiedDatabase.length; i += 200){
+            if(isNaN(parseInt(unmodifiedDatabase[i][3])) ||  unmodifiedDict[parseInt(unmodifiedDatabase[i][3])].length <= 1)
+                continue;
+            const artists = unmodifiedDict[parseInt(unmodifiedDatabase[i][3])][3].split(' - ');
+            for(let j = 0; j < artists.length; ++j){
+                const key = artists[j];
+                const value = topArtistsMostNum1MAP.has(key) ? topArtistsMostNum1MAP.get(key) + 1 : 1;
+                topArtistsMostNum1MAP.set(key, value);
+            }
         }
     }
-    let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
+    let sorted = [...topArtistsMostNum1MAP.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
     for(let i = 2; i < 13; ++i){
         if(i==8)
             continue;
