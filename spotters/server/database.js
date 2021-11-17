@@ -416,11 +416,11 @@ export function tenArtistTopTen(){
             if(unmodifiedDatabase[i][2] == '10') //skips to the next top 10
                 i += 190;
         }
-    }
-    let sorted = [...tenArtistsMostTop10MAP.entries()].sort((a, b) => b[1] - a[1]); //sort instead of using max heap
-    for(let i = 0; i < 10; ++i)
-        tenArtistsMostTop10.push([sorted[i][0], sorted[i][1]]);
-        
+    
+        let sorted = [...tenArtistsMostTop10MAP.entries()].sort((a, b) => b[1] - a[1]); //sort instead of using max heap
+        for(let i = 0; i < 10; ++i)
+            tenArtistsMostTop10.push([sorted[i][0], sorted[i][1]]);
+    }    
     // console.log("First: " + tenArtistsMostTop10[0][0]);
     // console.log("in top ten");
     // console.log(tenArtistsMostTop10);
@@ -504,26 +504,24 @@ export function topArtistsMostNumber1(){ //feature 6
                 topArtistsMostNum1MAP.set(key, value);
             }
         }
+    
+        let sorted = [...topArtistsMostNum1MAP.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
+        for(let i = 2; i < 13; ++i){
+            if(i==8)
+                continue;
+            //console.log(sorted[i][0]);
+            topArtistsMostNum1.push([sorted[i][0], sorted[i][1]]); //[artist name, count] : [string, int] hopefully
+        }
     }
-    let sorted = [...topArtistsMostNum1MAP.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
-    for(let i = 2; i < 13; ++i){
-        if(i==8)
-            continue;
-        //console.log(sorted[i][0]);
-        topArtistsMostNum1.push([sorted[i][0], sorted[i][1]]); //[artist name, count] : [string, int] hopefully
-        
-    }
-        console.log("First: " + topArtistsMostNum1[0][0]);
-        console.log("ten artists most top 10");
-        console.log(topArtistsMostNum1);
+    console.log("First: " + topArtistsMostNum1[0][0]);
+    console.log("ten artists most top 10");
+    console.log(topArtistsMostNum1);
     return topArtistsMostNum1;
 }
 
 export function top10genre(country) { //Jessie's feature 2 function
     let mostTop10 = [];
    // if(top10.length != 0){return mostTop10;}
-    let tempA = [];
-    let tempB = [];
     let map = new Map();
 
     for (let i = 0; i < unmodifiedDict.length; ++i) {
