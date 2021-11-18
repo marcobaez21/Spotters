@@ -5,8 +5,8 @@ let database = [];
 let dict = [];
 let top10 = [];
 
-let unmodifiedDatabase = [];
-let unmodifiedDict = [];
+//let unmodifiedDatabase = [];
+//let unmodifiedDict = [];
 let averageCharacteristicsByLocation = [];
 let mostFollowers = []; //feature 4
 let tenSongsMostNumber1 = []; //feature 5
@@ -24,23 +24,23 @@ fs.readFile("data_10countries_2019.csv", "utf8", function (err, data) {
     database.shift();
 });
 
-fs.readFile("data_10countries_2019_unmodified.csv", "utf8", function (err, data) {
+/*fs.readFile("data_10countries_2019_unmodified.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
     unmodifiedDatabase = rows.map(function (row) { return row.split(","); })
     unmodifiedDatabase.shift();
-});
+});*/
 
 fs.readFile("dict_10countries_2019.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
-    unmodifiedDict = rows.map(function (row) { return row.split(","); })
-    unmodifiedDict.shift();
+    dict = rows.map(function (row) { return row.split(","); })
+    dict.shift();
 });
 
-fs.readFile("dict_10countries_2019_unmodified.csv", "utf8", function (err, data) {
+/*fs.readFile("dict_10countries_2019_unmodified.csv", "utf8", function (err, data) {
     let rows = data.split("\n");
     unmodifiedDict = rows.map(function (row) { return row.split(","); })
     unmodifiedDict.shift();
-});
+});*/
 
 export function search(rank, country, date, artist, title) {
     let runningList = [];
@@ -266,6 +266,11 @@ export function remove(rank, country, date, artist, song){
             }
         }
         //END - artists with most #1
+        tenSongsMostNumber1 = [];
+        averageCharacteristicsByLocation = [];
+        mostFollowers = []; //feature 4
+        tenArtistsMostTop10 = []; //feature 6
+        topArtistsMostNum1 = [];
 
         database.splice(foundindex, 1);
     }
@@ -342,7 +347,8 @@ export function averageCharacteristics(){
     // 4 - average acoustics
     // 5 - average liveliness
     // 6 - average valence
-   // let arr = new Array(10).fill(new Array(7).fill(0));
+    //let arr = new Array(10).fill(new Array(7).fill(0));
+   // var arr = [];
    let arr = [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
               [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
               [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
@@ -356,35 +362,36 @@ export function averageCharacteristics(){
    //let arr = [];
    const map = new Map([["Global", 0], ["USA", 1], ["UK", 2], ["Canada", 3],["Sweden", 4], ["Mexico", 5],["France", 6], ["Malaysia", 7],["Netherlands", 8], ["Australia", 9]]);
    let location = 0;
-   console.log("data: "+unmodifiedDatabase[0][0]);
-   console.log("map output: (should be 0)"+map.get(unmodifiedDatabase[0][0]));
-   console.log(typeof(map.get(unmodifiedDatabase[0][0])));
-   console.log("id: (should be 1)"+unmodifiedDatabase[1][3]);
-   console.log(typeof(unmodifiedDatabase[1][3]));
-   console.log("first song"+unmodifiedDict[0]);
-   let id2 = parseInt(unmodifiedDatabase[0][3]);
-   console.log("dancability (should be 0.83): "+parseFloat(unmodifiedDict[id2][12]));
-   console.log(typeof(parseFloat(unmodifiedDict[0][12])));
-   console.log(unmodifiedDatabase.length);
+   /*
+   console.log("data: "+database[0][0]);
+   console.log("map output: (should be 0)"+map.get(database[0][0]));
+   console.log(typeof(map.get(database[0][0])));
+   console.log("id: (should be 1)"+database[1][3]);
+   console.log(typeof(database[1][3]));
+   console.log("first song"+dict[0]);
+   let id2 = parseInt(database[0][3]);
+   console.log("dancability (should be 0.83): "+parseFloat(dict[id2][12]));
+   console.log(typeof(parseFloat(dict[0][12])));
+   console.log(database.length);*/
  
-    for(let i = 0; i < unmodifiedDatabase.length; ++i){
-        location = map.get(unmodifiedDatabase[i][0]);
-       // console.log(map.get(unmodifiedDatabase[i][0]));
-       // console.log(typeof(location));
-       // console.log("loc"+location);
-        let id = parseInt(unmodifiedDatabase[i][3]);
+    for(let i = 0; i < database.length; ++i){
+        location = map.get(database[i][0]);
+      //  console.log(map.get(unmodifiedDatabase[i][0]));
+      //  console.log(typeof(location));
+      //  console.log("loc"+location);
+        let id = parseInt(database[i][3]);
        // console.log("id"+id)
         arr[location][0] += 1.0;
-       // arr[location][1] += (1.0*(unmodifiedDict[id][12]));
-       // arr[location][2] += (1.0*(unmodifiedDict[id][13]));
-        arr[location][1] += (1.0*(unmodifiedDict[id][17]));
-        arr[location][2] += (1.0*(unmodifiedDict[id][18]));
-        arr[location][3] += (1.0*(unmodifiedDict[id][17]));
-        arr[location][4] += (1.0*(unmodifiedDict[id][18]));
-        arr[location][5] += (1.0*(unmodifiedDict[id][20]));
-        arr[location][6] += (1.0*(unmodifiedDict[id][21]));
+        //arr[location][1] += (1.0*(dict[id][12]));
+        //arr[location][2] += (1.0*(dict[id][13]));
+        arr[location][1] += (1.0*(dict[id][17]));
+        arr[location][2] += (1.0*(dict[id][18]));
+        arr[location][3] += (1.0*(dict[id][17]));
+        arr[location][4] += (1.0*(dict[id][18]));
+        arr[location][5] += (1.0*(dict[id][20]));
+        arr[location][6] += (1.0*(dict[id][21]));
     }
-    console.log(arr);
+   // console.log(arr);
     for(let i = 0; i < arr.length; ++i){
         const total = arr[i][0];
         arr[i][1] /= total;
@@ -395,16 +402,17 @@ export function averageCharacteristics(){
         arr[i][6] /= total;
     }
     averageCharacteristicsByLocation = arr;
-    console.log("here in averagecharacteristics");
+   // console.log("here in averagecharacteristics");
     //console.log(arr);
     return averageCharacteristicsByLocation;
-    return arr;
+   // return arr;
 }
 
 export function tenArtistTopTen(){
     if(tenArtistsMostTop10.length == 0){ //only run this part at the beginning
-        for(let i = 0; i < (unmodifiedDatabase.length - 1); ++i){
-            const artists = unmodifiedDict[parseInt(unmodifiedDatabase[i][3])][3].split(' - ');
+        for(let i = 0; i < (database.length - 1); ++i){
+         //   const artists = dict[parseInt(database[i][3])][3].split(' - ');
+         const artists = dict[1*(database[i][3])][3].split(' - ');
 
             for(let j = 0; j < artists.length; ++j) {
                 if (artists[j] != '') {
@@ -413,7 +421,7 @@ export function tenArtistTopTen(){
                     tenArtistsMostTop10MAP.set(artists[j], tenArtistsMostTop10MAP.get(artists[j]) + 1);
                 }
             }
-            if(unmodifiedDatabase[i][2] == '10') //skips to the next top 10
+            if(database[i][2] == '10') //skips to the next top 10
                 i += 190;
         }
     
@@ -434,15 +442,15 @@ export function searchAndReturnCharacteristics(rank, country, date){
    let tempid = -1;
     let [year, month, day] = date.split('-'); //changing date to databases form
         date = day + "/" + month + "/" + year;
-    for(let i=0;i<unmodifiedDatabase.length;i++){ //used to search database to find the id of the song we want characteristics from
-       if(unmodifiedDatabase[i][0]==country && unmodifiedDatabase[i][1]==date && unmodifiedDatabase[i][2] == rank ){tempid=unmodifiedDatabase[i][3];}
+    for(let i=0;i<database.length;i++){ //used to search database to find the id of the song we want characteristics from
+       if(database[i][0]==country && database[i][1]==date && database[i][2] == rank ){tempid=database[i][3];}
     }
    // if(tempid==-1){return;}
-    for(let i=0;i<unmodifiedDict.length;i++){ //used to search through the dict with our tempid and then returning an array of song characteristics
-        if(parseInt(unmodifiedDict[i][0])==parseInt(tempid)){
-           chararray = [ unmodifiedDict[i][12], unmodifiedDict[i][13], unmodifiedDict[i][17], unmodifiedDict[i][18], unmodifiedDict[i][20], unmodifiedDict[i][21]];
-            console.log(chararray);
-            console.log("here in searchandreturn");
+    for(let i=0;i<dict.length;i++){ //used to search through the dict with our tempid and then returning an array of song characteristics
+        if(parseInt(dict[i][0])==parseInt(tempid)){
+           chararray = [ dict[i][12], dict[i][13], dict[i][17], dict[i][18], dict[i][20], dict[i][21]];
+          //  console.log(chararray);
+         //   console.log("here in searchandreturn");
             return chararray;
         }
     }
@@ -451,30 +459,30 @@ export function searchAndReturnCharacteristics(rank, country, date){
 export function topArtistMostFollowers(){ //feature 4
     if(mostFollowers.length!=0){return mostFollowers;}
     let map = new Map();
-    for(let i = 0; i < unmodifiedDict.length; ++i){
-        if(unmodifiedDict[i].length <= 1)
+    for(let i = 0; i < dict.length; ++i){
+        if(dict[i].length <= 1)
             continue;
-        const artists = unmodifiedDict[i][3].split(' - '); //original
+        const artists = dict[i][3].split(' - '); //original
         //if(artists.size() != 1) //original
         if(artists.length != 1)
             continue;
         
-        map.set(unmodifiedDict[i][3], parseInt(unmodifiedDict[i][6]));
+        map.set(dict[i][3], parseInt(dict[i][6]));
     }
     let sorted = [...map.entries()].sort((a, b) => b[1] - a[1]); //reverse sort by value (count) so that top 10 are in front
     for(let i = 1; i < 11; ++i)
         mostFollowers.push(sorted[i][0], sorted[i][1]); //[artist name, count] : [string, int] hopefully
-        console.log("First: " + mostFollowers[0][0]);
-        console.log("top most followers");
-        console.log(mostFollowers);
+      //  console.log("First: " + mostFollowers[0][0]);
+      //  console.log("top most followers");
+      //  console.log(mostFollowers);
     return mostFollowers;   
 }
 
 export function topSongsMostNumber1(){ //feature 5
     if(tenSongsMostNumber1.length!=0){return tenSongsMostNumber1;}
     let map = new Map();
-    for(let i = 0; i < unmodifiedDatabase.length; i += 200){
-        const id = parseInt(unmodifiedDatabase[i][3]);
+    for(let i = 0; i < database.length; i += 200){
+        const id = parseInt(database[i][3]);
         const x = map.has(id) ? map.get(id) + 1 : 1;
         map.set(id, x);
     }
@@ -482,11 +490,11 @@ export function topSongsMostNumber1(){ //feature 5
     for(let i = 0; i < 11; ++i){
         if(i==1)
             continue;
-        tenSongsMostNumber1.push([unmodifiedDict[sorted[i][0]][2], unmodifiedDict[sorted[i][0]][3], sorted[i][1]]); //[song name, artist name, count] : [string, string, int] hopefully
+        tenSongsMostNumber1.push([dict[sorted[i][0]][2], dict[sorted[i][0]][3], sorted[i][1]]); //[song name, artist name, count] : [string, string, int] hopefully
     }
         console.log("First: " + tenSongsMostNumber1[0][0]);
         console.log("ten Songs Most Number 1");
-        console.log(tenSongsMostNumber1);
+       console.log(tenSongsMostNumber1);
     return tenSongsMostNumber1
 }
 
@@ -494,10 +502,10 @@ export function topArtistsMostNumber1(){ //feature 6
     // if(topArtistsMostNum1.length!=0){return topArtistsMostNum1;}
 
     if(topArtistsMostNum1.length == 0){
-        for(let i = 0; i < unmodifiedDatabase.length; i += 200){
-            if(isNaN(parseInt(unmodifiedDatabase[i][3])) ||  unmodifiedDict[parseInt(unmodifiedDatabase[i][3])].length <= 1)
+        for(let i = 0; i < database.length; i += 200){
+            if(isNaN(parseInt(database[i][3])) ||  dict[parseInt(database[i][3])].length <= 1)
                 continue;
-            const artists = unmodifiedDict[parseInt(unmodifiedDatabase[i][3])][3].split(' - ');
+            const artists = dict[parseInt(database[i][3])][3].split(' - ');
             for(let j = 0; j < artists.length; ++j){
                 const key = artists[j];
                 const value = topArtistsMostNum1MAP.has(key) ? topArtistsMostNum1MAP.get(key) + 1 : 1;
@@ -513,9 +521,9 @@ export function topArtistsMostNumber1(){ //feature 6
             topArtistsMostNum1.push([sorted[i][0], sorted[i][1]]); //[artist name, count] : [string, int] hopefully
         }
     }
-    console.log("First: " + topArtistsMostNum1[0][0]);
-    console.log("ten artists most top 10");
-    console.log(topArtistsMostNum1);
+  //  console.log("First: " + topArtistsMostNum1[0][0]);
+  //  console.log("ten artists most top 10");
+  //  console.log(topArtistsMostNum1);
     return topArtistsMostNum1;
 }
 
@@ -524,18 +532,18 @@ export function top10genre(country) { //Jessie's feature 2 function
    // if(top10.length != 0){return mostTop10;}
     let map = new Map();
 
-    for (let i = 0; i < unmodifiedDict.length; ++i) {
-        let gen = unmodifiedDict[i][5];
+    for (let i = 0; i < dict.length; ++i) {
+        let gen = dict[i][5];
         
         if(gen!='' && gen!="n-a"){
         if (!map.has(gen)) 
             map.set(gen, 0);
 
-        if (parseInt(unmodifiedDatabase[i][2]) >= 1 && parseInt(unmodifiedDatabase[i][2]) <= 50)
+        if (parseInt(database[i][2]) >= 1 && parseInt(database[i][2]) <= 50)
             map.set(gen, map.get(gen) + 1);
-        else if (parseInt(unmodifiedDatabase[i][2]) >= 51 && parseInt(unmodifiedDatabase[i][2] <= 100))
+        else if (parseInt(database[i][2]) >= 51 && parseInt(database[i][2] <= 100))
             map.set(gen, map.get(gen) + 1/*0.8*/);
-        else if (parseInt(unmodifiedDatabase[i][2]) >= 101 && parseInt(unmodifiedDatabase[i][2]) <= 200)
+        else if (parseInt(database[i][2]) >= 101 && parseInt(database[i][2]) <= 200)
             map.set(gen, map.get(gen) + 1/*0.7*/);
         }
     }
@@ -546,7 +554,7 @@ export function top10genre(country) { //Jessie's feature 2 function
     }
 
     top10 = mostTop10;
-    console.log("Top 10: " + top10); // check
+  //  console.log("Top 10: " + top10); // check
 
     return top10;
 }

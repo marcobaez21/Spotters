@@ -62,6 +62,7 @@ router.post("/edit", function (req, res) {
 });
 
 router.post("/delete", function (req, res) {
+  //  songsMostNum1 = topSongsMostNumber1();
     remove(req.body.rank,
         req.body.country, 
         req.body.date,
@@ -173,7 +174,7 @@ router.get("/analytics/f6", function(req, res) {
     let tempA = [];
     let tempB = [];
 
-    // Put top artists into tempA and count into tempB
+  //  // Put top artists into tempA and count into tempB
     for (let j = 0; j < topArtistsMostNum1.length; j++) {
         tempA.push([topArtistsMostNum1[j][0]]);
         tempB.push([topArtistsMostNum1[j][1]]);
@@ -197,9 +198,15 @@ router.post("/analytics/f3", function (req, res) {
 router.post("/analytics/f4", function (req, res) {
     
 });
+
 router.post("/analytics/f5", function (req, res) {
-    
+  //  songsMostNum1 = topSongsMostNumber1();
+   /* for (let j = 0; j < songsMostNum1.length; j++) {
+        tempA.push([songsMostNum1[j][0]]);
+        tempB.push([songsMostNum1[j][2]]);
+    }*/
 });
+
 router.post("/analytics/f6", function (req, res) {
     
 });
