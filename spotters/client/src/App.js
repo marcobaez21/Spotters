@@ -9,26 +9,26 @@ import Delete from "./components/delete.js";
 import Analytics from "./components/analytics.js";
 
 const App = () => {
-    return (
-        <div>
-            <Navbar />
-            <Route exact path="/">
-                <Analytics />
-            </Route>
-            <Route path="/explore">
-                <Explore />
-            </Route>
-            <Route path="/create">
-                <Create />
-            </Route>
-            <Route path="/edit">
-                <Edit />
-            </Route>
-            <Route path="/delete">
-                <Delete />
-            </Route>
-        </div>
-    );
+  return (
+    <div>
+      <Navbar />
+      <Route exact path="/">
+        <Analytics />
+      </Route>
+      <Route path="/explore">
+        <Explore />
+      </Route>
+      <Route path="/create">
+        <Create />
+      </Route>
+      <Route path="/edit">
+        <Edit />
+      </Route>
+      <Route path="/delete">
+        <Delete />
+      </Route>
+    </div>
+  );
 };
 
 export default App;
