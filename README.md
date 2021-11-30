@@ -13,7 +13,10 @@ The following steps would allow you to run the web application on your device
 git clone git@github.com:ucr-cs180-fall21/cs180project-022-spotters.git
 cd spotters/server/
 node server.js
+cd spotters/client/
+npm start
 ```
+Once you run the above commands, go to http://localhost:3000/ to check out the webite.
 
 ## Technologies and Frameworks
 - NodeJS
