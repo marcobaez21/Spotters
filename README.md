@@ -24,4 +24,4 @@ Once you run the above commands, go to http://localhost:3000/ to check out the w
 - React
 
 ## Documentation
-This repo contains our sprint documentation and demos over the course of 
+This repo contains our sprint documentation and demos over the course of 6 sprints.
