@@ -41,3 +41,9 @@ Once you run the above commands, go to http://localhost:3000/ to check out the w
 
 ## Documentation
 This repo contains our sprint documentation and demos over the course of 6 sprints.
+
+##Pictures
+
+![alt text](https://github.com/marcobaez21/Spotters/blob/main/MainPage.PNG)
+
+![alt text](https://github.com/marcobaez21/Spotters/blob/main/SearchPage.PNG)
