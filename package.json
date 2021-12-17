@@ -1,0 +1,5 @@
+{
+"scripts": {
+    "start": "node spotters/server/server.js"
+  }
+}

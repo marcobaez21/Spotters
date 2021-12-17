@@ -479,6 +479,7 @@ export function topArtistMostFollowers(){ //feature 4
 }
 
 export function topSongsMostNumber1(){ //feature 5
+    console.time();
     if(tenSongsMostNumber1.length!=0){return tenSongsMostNumber1;}
     let map = new Map();
     for(let i = 0; i < database.length; i += 200){
@@ -492,6 +493,7 @@ export function topSongsMostNumber1(){ //feature 5
             continue;
         tenSongsMostNumber1.push([dict[sorted[i][0]][2], dict[sorted[i][0]][3], sorted[i][1]]); //[song name, artist name, count] : [string, string, int] hopefully
     }
+    console.timeEnd();
         console.log("First: " + tenSongsMostNumber1[0][0]);
         console.log("ten Songs Most Number 1");
        console.log(tenSongsMostNumber1);
